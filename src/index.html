@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Moment 2.1</title>
+    <link rel="stylesheet" href="css/main.scss">
+    <script src="js/main.ts" type="module"></script>
+</head>
+<body>
+    <header>
+        <h1>TypeScript - Moment 1</h1>
+        <h2>Fyll i formuläret</h2>
+    </header>
+    <main>
+        <form id="courseForm">
+            <label for="code">Kurskod:</label>
+            <input type="text" id="code" name="code" required>
+            
+            <label for="name">Kursnamn:</label>
+            <input type="text" id="name" name="name" required>
+            
+            <label for="progression">Progression:</label>
+            <select id="progression" name="progression" required>
+                <option value="A">A</option>
+                <option value="B">B</option>
+                <option value="C">C</option>
+            </select>
+            
+            <label for="syllabus">Kursplan (URL):</label>
+            <input type="url" id="syllabus" name="syllabus" required>
+            
+            <button type="submit">Lägg till kurs</button>
+            <button type="button" id="updateCourse">Uppdatera kurs</button>
+        </form>
+        
+        <div id="courseList">
+            <!-- Kurslista från ts -->
+        </div>
+    </main>
+    <footer>
+
+    </footer>
+</body>
+</html>
