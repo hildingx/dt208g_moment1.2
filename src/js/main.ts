@@ -52,3 +52,59 @@ courseForm.addEventListener('submit', (event) => {
     addCourse();
 });
 
+//Funktion för att spara kurstata till localstorage
+function saveCourses(courses: Course[]) {
+    localStorage.setItem('courses', JSON.stringify(courses));
+}
+
+//Funktion för att hämta kursdata från localstorage
+function getCourses(): Course[] {
+    const coursesJSON = localStorage.getItem('courses');
+    return coursesJSON ? JSON.parse(coursesJSON) : [];
+}
+
+//Funktion för att uppdatera DOM med data från localstorage
+function renderCourses(): void {
+    //Hämta lista av kursobjekt från localstorage
+    const courses = getCourses();
+    let coursesHTML = '';
+
+    //Loopa och skriv ut kursinfo från kursobjekt
+    courses.forEach(course => {
+        coursesHTML += `
+            <span class="line"></span>
+            <div class="courseContainer">
+                <p><strong>Kurskod:</strong> ${course.code}</p>
+                <p><strong>Namn:</strong> ${course.name}</p>                
+                <p><strong>Progression:</strong> ${course.progression}</p>
+                <p><strong>Kursplan:</strong> <a href="${course.syllabus}" target="_blank">Länk</a></p>
+                <div class="buttonContainer">
+                    <button class="edit-button button button--grey" data-code="${course.code}">Redigera</button>
+                    <button class="delete-button button button--yellow" data-code="${course.code}">Ta bort</button>
+                </div>
+            </div>
+        `;
+    });
+
+    courseListEl.innerHTML = coursesHTML;
+
+    //Händelselyssnare för ändra-knapp. Vid klick kör funktion editcourse med coursecode som argument
+    document.querySelectorAll('.edit-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const courseCode = this.getAttribute('data-code');
+            if (courseCode) {
+                editCourse(courseCode);
+            }
+        });
+    });
+
+    //Händelselyssnare för ta bort-knapp
+    document.querySelectorAll('.delete-button').forEach(button => {
+        button.addEventListener('click', function() {
+            const courseCode = this.getAttribute('data-code');
+            if (courseCode) {
+                deleteCourse(courseCode);
+            }
+        });
+    });
+}
