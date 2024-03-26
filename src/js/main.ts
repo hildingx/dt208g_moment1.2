@@ -126,3 +126,70 @@ function deleteCourse(courseCode: string): void {
 
 //Direktanropar funktion för att uppdatera DOM med ev. data från localstorage
 renderCourses();
+
+//Funktion för att hämta kurs som ska ändras och visa redigeraformulär
+function editCourse(courseCode: string): void {
+    const courses = getCourses();
+    const courseToEdit = courses.find(course => course.code === courseCode);
+
+    if (courseToEdit) {
+        (document.getElementById('editForm') as HTMLElement).style.display = 'block';
+        (document.querySelector('.overlay') as HTMLElement).style.display = 'block';
+        (document.getElementById('editCode') as HTMLInputElement).value = courseToEdit.code;
+        (document.getElementById('editName') as HTMLInputElement).value = courseToEdit.name;
+        (document.getElementById('editProgression') as HTMLSelectElement).value = courseToEdit.progression;
+        (document.getElementById('editSyllabus') as HTMLInputElement).value = courseToEdit.syllabus;
+
+        //Sparaknappen för att lyssna på klick och uppdatera kursen
+        (document.getElementById('saveEdit') as HTMLButtonElement).onclick = function() {
+            updateCourse(courseCode);
+        };
+    }
+}
+
+//Funktion för att uppdatera en kurs
+function updateCourse(originalCode: string): void {
+    //Hämta DOM-referenser
+    const codeInput = document.getElementById('editCode') as HTMLInputElement;
+    const nameInput = document.getElementById('editName') as HTMLInputElement;
+    const progressionSelect = document.getElementById('editProgression') as HTMLSelectElement;
+    const syllabusInput = document.getElementById('editSyllabus') as HTMLInputElement;
+    const editForm = document.getElementById('editForm') as HTMLElement;
+
+    //Kontrollera att alla element finns
+    if (codeInput && nameInput && progressionSelect && syllabusInput && editForm) {
+        const updatedCourse: Course = {
+            code: codeInput.value,
+            name: nameInput.value,
+            progression: progressionSelect.value as 'A' | 'B' | 'C',
+            syllabus: syllabusInput.value
+        };
+
+        let courses = getCourses();
+
+        //Kontrollera om den nya kurskoden redan är inlagd
+        const codeExists = courses.some(course => course.code === updatedCourse.code && course.code !== originalCode);
+
+        if (codeExists) {
+            alert('En kurs med denna kod finns redan. Ange en unik kurskod.');
+            return;
+        }
+
+        //Hitta index för kurs som ska uppdateras
+        const courseIndex = courses.findIndex(course => course.code === originalCode);
+        //Uppdatera kursen i listan och i DOM
+        if (courseIndex !== -1) {
+            courses[courseIndex] = updatedCourse;
+            saveCourses(courses);
+            renderCourses();
+        }
+    } else {
+        console.error('Ett eller flera element kunde inte hittas i DOM');
+    }
+}
+
+// Lägg till en händelsehanterare för att dölja formuläret och overlay när användaren sparar ändringarna
+(document.getElementById('saveEdit') as HTMLButtonElement).addEventListener('click', function() {
+    (document.getElementById('editForm') as HTMLElement).style.display = 'none';
+    (document.querySelector('.overlay') as HTMLElement).style.display = 'none';
+});
