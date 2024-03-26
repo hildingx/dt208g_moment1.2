@@ -1,0 +1,38 @@
+//Stil för knappar
+.button {
+    padding: 10px 20px;
+    font-size: 1rem;
+    border-radius: 4px;
+    border: none;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+
+    //Blå stil
+    &--blue {
+        background-color: #007bff;
+        color: #ffffff;
+
+        &:hover {
+            background-color: darken(#007bff, 10%);
+        }
+    }
+
+    //Grå stil
+    &--grey {
+        background-color: #6c757d;
+        color: #ffffff;
+
+        &:hover {
+            background-color: darken(#6c757d, 10%);
+        }
+    }
+
+    //Gul stil
+    &--yellow {
+        background-color: #ffc107;
+    
+        &:hover {
+          background-color: darken(#ffc107, 10%);
+        }
+    }
+}
