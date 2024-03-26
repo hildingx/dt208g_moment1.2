@@ -108,3 +108,21 @@ function renderCourses(): void {
         });
     });
 }
+
+//Funktion för att ta bort kurs
+function deleteCourse(courseCode: string): void {
+    //Hämta befintliga kurser
+    let courses = getCourses();
+
+    //Filtrera ut kurs som ska tas bort
+    courses = courses.filter(course => course.code !== courseCode);
+
+    //Spara ner i localstorage
+    saveCourses(courses);
+
+    //Uppdatera DOM
+    renderCourses();
+}
+
+//Direktanropar funktion för att uppdatera DOM med ev. data från localstorage
+renderCourses();
