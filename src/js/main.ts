@@ -36,6 +36,12 @@ function addCourse(): void {
         return;
     }
 
+    //Validera input så inga fält är tomma
+    if (!codeInput.value.trim() || !nameInput.value.trim() ||  !syllabusInput.value.trim()) {
+        alert('Alla fält måste vara ifyllda.')
+        return;
+    }
+
     //Lägg till den nya kursen i listan
     courses.push(newCourse);
 
@@ -172,6 +178,11 @@ function updateCourse(originalCode: string): void {
 
         if (codeExists) {
             alert('En kurs med denna kod finns redan. Ange en unik kurskod.');
+            return;
+        }
+        
+        if (!codeInput.value.trim() || !nameInput.value.trim() ||  !syllabusInput.value.trim()) {
+            alert('Alla fält måste vara ifyllda.')
             return;
         }
 
